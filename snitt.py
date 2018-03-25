@@ -12,7 +12,6 @@ def load_pairs(h):
     for line in h:
         a, b = line.split()
         pairs[(a,b)] = True
-
     return pairs
 
 
@@ -26,7 +25,7 @@ def filter_pairs(h, known_pairs):
     n_unique = 0
     for line in h:
         a, b = line.split()
-        if (a,b) in known_pairs:
+        if (a,b) in known_pairs or (b,a) in known_pairs:
             n_shared += 1
         else:
             n_unique += 1
@@ -36,7 +35,7 @@ def filter_pairs(h, known_pairs):
 def main(file1, file2):
     with open(file1) as h1, open(file2) as h2:
         pairs = load_pairs(h1)
-
+        
         n_shared, n_unique = filter_pairs(h2, pairs)
         print("Shared:   ", n_shared)
         print("Unique 1: ", len(pairs) - n_shared)
